@@ -180,122 +180,184 @@ onkeyup="searchComplaint(this.value)">
 
 <script>
 
-let complaints =
-JSON.parse(
-localStorage.getItem("complaints")
-) || [];
+const API =
+"https://smart-civic-backend-dplj.onrender.com";
+
+let complaints = [];
+
+async function getComplaints(){
+
+try{
+
+const res = await fetch(
+`${API}/get-complaints`
+);
+
+complaints = await res.json();
+
+loadComplaints(complaints);
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Failed to load complaints");
+
+}
+
+}
 
 function loadComplaints(data){
 
-  let html = "";
+let html = "";
 
-  data.reverse().forEach(item => {
+if(data.length === 0){
 
-    html += `
+html = `
 
-    <tr>
+<tr>
 
-      <td>${item.id}</td>
+<td colspan="8">
 
-      <td>${item.name}</td>
+No Complaints Found
 
-      <td>${item.title}</td>
+</td>
 
-      <td>${item.area}</td>
+</tr>
 
-      <td>${item.category}</td>
+`;
 
-      <td>
-
-        ${
-          item.image
-          ?
-          `<img src="${item.image}">`
-          :
-          "No Image"
-        }
-
-      </td>
-
-      <td>
-
-        <select onchange="updateStatus(${item.id},this.value)">
-
-          <option
-          ${item.status=="Pending"?"selected":""}>
-          Pending
-          </option>
-
-          <option
-          ${item.status=="In Progress"?"selected":""}>
-          In Progress
-          </option>
-
-          <option
-          ${item.status=="Resolved"?"selected":""}>
-          Resolved
-          </option>
-
-        </select>
-
-      </td>
-
-      <td class="feedback">
-
-        ${
-          item.feedback
-          ? item.feedback
-          : "No Feedback"
-        }
-
-      </td>
-
-    </tr>
-
-    `;
-
-  });
-
-  document.getElementById(
-    "tableBody"
-  ).innerHTML = html;
 }
 
-function updateStatus(id,status){
+else{
 
-  complaints = complaints.map(item => {
+data.reverse().forEach(item => {
 
-    if(item.id == id){
+html += `
 
-      item.status = status;
-    }
+<tr>
 
-    return item;
-  });
+<td>${item.id}</td>
 
-  localStorage.setItem(
-    "complaints",
-    JSON.stringify(complaints)
-  );
+<td>${item.name}</td>
 
-  loadComplaints(complaints);
+<td>${item.title}</td>
+
+<td>${item.area}</td>
+
+<td>${item.category}</td>
+
+<td>
+
+${
+item.image
+?
+`<img src="${API}/uploads/${item.image}">`
+:
+"No Image"
+}
+
+</td>
+
+<td>
+
+<select onchange="updateStatus(${item.id},this.value)">
+
+<option
+value="Pending"
+${item.status=="Pending"?"selected":""}>
+Pending
+</option>
+
+<option
+value="In Progress"
+${item.status=="In Progress"?"selected":""}>
+In Progress
+</option>
+
+<option
+value="Resolved"
+${item.status=="Resolved"?"selected":""}>
+Resolved
+</option>
+
+</select>
+
+</td>
+
+<td class="feedback">
+
+${
+item.feedback
+? item.feedback
+: "No Feedback"
+}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+document.getElementById(
+"tableBody"
+).innerHTML = html;
+
+}
+
+async function updateStatus(id,status){
+
+try{
+
+await fetch(
+`${API}/update-status/${id}`,
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:status
+})
+}
+);
+
+getComplaints();
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Failed to update status");
+
+}
+
 }
 
 function searchComplaint(text){
 
-  const filtered =
-  complaints.filter(item =>
+const filtered =
+complaints.filter(item =>
 
-    item.title
-    .toLowerCase()
-    .includes(text.toLowerCase())
+item.title
+.toLowerCase()
+.includes(text.toLowerCase())
 
-  );
+);
 
-  loadComplaints(filtered);
+loadComplaints(filtered);
+
 }
 
-loadComplaints(complaints);
+getComplaints();
 
 </script>
 

@@ -13,286 +13,176 @@ rel="stylesheet">
 <style>
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-
-  min-height:100vh;
-
-  padding:30px;
-
-  background:
-  radial-gradient(circle at top left,#2563eb,#020617 40%),
-  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
-
-  color:white;
-
-  overflow-x:hidden;
+min-height:100vh;
+padding:30px;
+background:
+radial-gradient(circle at top left,#2563eb,#020617 40%),
+radial-gradient(circle at bottom right,#9333ea,#020617 40%);
+color:white;
+overflow-x:hidden;
 }
 
-/* HEADER */
-
 .header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
 }
 
 .logo{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
+display:flex;
+align-items:center;
+gap:12px;
 }
 
 .logo-box{
-
-  width:50px;
-
-  height:50px;
-
-  border-radius:15px;
-
-  background:linear-gradient(135deg,#3b82f6,#9333ea);
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  font-size:24px;
-
-  font-weight:bold;
+width:50px;
+height:50px;
+border-radius:15px;
+background:linear-gradient(135deg,#3b82f6,#9333ea);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:24px;
+font-weight:bold;
 }
 
 .right{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:20px;
-
-  position:relative;
+display:flex;
+align-items:center;
+gap:20px;
+position:relative;
 }
 
-/* BELL */
-
 .notify{
-
-  position:relative;
-
-  cursor:pointer;
-
-  user-select:none;
-
-  font-size:32px;
+position:relative;
+cursor:pointer;
+user-select:none;
+font-size:32px;
 }
 
 .badge{
-
-  position:absolute;
-
-  top:-8px;
-
-  right:-10px;
-
-  width:22px;
-
-  height:22px;
-
-  border-radius:50%;
-
-  background:#ef4444;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  font-size:12px;
-
-  font-weight:bold;
+position:absolute;
+top:-8px;
+right:-10px;
+width:22px;
+height:22px;
+border-radius:50%;
+background:#ef4444;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+font-weight:bold;
 }
 
-/* NOTIFICATION BOX */
-
 .notification-box{
-
-  position:absolute;
-
-  top:60px;
-
-  right:0;
-
-  width:320px;
-
-  max-height:350px;
-
-  overflow:auto;
-
-  background:#0f172a;
-
-  border-radius:18px;
-
-  padding:15px;
-
-  display:none;
-
-  z-index:9999;
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  box-shadow:0 0 30px rgba(0,0,0,0.4);
+position:absolute;
+top:60px;
+right:0;
+width:320px;
+max-height:350px;
+overflow:auto;
+background:#0f172a;
+border-radius:18px;
+padding:15px;
+display:none;
+z-index:9999;
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 0 30px rgba(0,0,0,0.4);
 }
 
 .notification-item{
-
-  padding:14px;
-
-  border-radius:12px;
-
-  background:rgba(255,255,255,0.06);
-
-  margin-bottom:12px;
+padding:14px;
+border-radius:12px;
+background:rgba(255,255,255,0.06);
+margin-bottom:12px;
 }
 
 .notification-item h4{
-
-  margin-bottom:6px;
-
-  font-size:15px;
+margin-bottom:6px;
+font-size:15px;
 }
 
 .notification-item p{
-
-  font-size:13px;
-
-  color:#cbd5e1;
+font-size:13px;
+color:#cbd5e1;
 }
-
-/* LOGOUT */
 
 .logout{
-
-  padding:12px 24px;
-
-  border:none;
-
-  border-radius:14px;
-
-  background:#ef4444;
-
-  color:white;
-
-  cursor:pointer;
-
-  font-size:15px;
+padding:12px 24px;
+border:none;
+border-radius:14px;
+background:#ef4444;
+color:white;
+cursor:pointer;
+font-size:15px;
 }
 
-/* HERO */
-
 .hero{
-
-  margin-bottom:40px;
+margin-bottom:40px;
 }
 
 .hero h1{
-
-  font-size:55px;
-
-  margin-bottom:10px;
+font-size:55px;
+margin-bottom:10px;
 }
 
 .hero p{
-
-  color:#cbd5e1;
-
-  font-size:20px;
+color:#cbd5e1;
+font-size:20px;
 }
-
-/* GRID */
 
 .grid{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(280px,1fr));
-
-  gap:25px;
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
 }
 
-/* CARD */
-
 .card{
-
-  background:rgba(255,255,255,0.06);
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  backdrop-filter:blur(20px);
-
-  border-radius:25px;
-
-  padding:35px;
-
-  transition:0.3s;
-
-  cursor:pointer;
-
-  text-decoration:none;
-
-  color:white;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(20px);
+border-radius:25px;
+padding:35px;
+transition:0.3s;
+cursor:pointer;
+text-decoration:none;
+color:white;
 }
 
 .card:hover{
-
-  transform:translateY(-5px);
-
-  background:rgba(255,255,255,0.09);
+transform:translateY(-5px);
+background:rgba(255,255,255,0.09);
 }
 
 .icon{
-
-  font-size:55px;
-
-  margin-bottom:20px;
+font-size:55px;
+margin-bottom:20px;
 }
 
 .card h2{
-
-  margin-bottom:12px;
-
-  font-size:24px;
+margin-bottom:12px;
+font-size:24px;
 }
 
 .card p{
-
-  color:#cbd5e1;
-
-  line-height:1.6;
+color:#cbd5e1;
+line-height:1.6;
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <div class="header">
 
@@ -305,8 +195,6 @@ body{
 </div>
 
 <div class="right">
-
-<!-- BELL -->
 
 <div class="notify"
 id="bell">
@@ -322,14 +210,12 @@ id="badge">
 
 </div>
 
-<!-- NOTIFICATION BOX -->
-
 <div class="notification-box"
 id="notificationBox">
 
 <div id="notificationList">
 
-Loading...
+No Notifications
 
 </div>
 
@@ -346,8 +232,6 @@ Logout
 
 </div>
 
-<!-- HERO -->
-
 <div class="hero">
 
 <h1>Dashboard 👋</h1>
@@ -361,8 +245,6 @@ Management System
 
 </div>
 
-<!-- GRID -->
-
 <div class="grid">
 
 <a href="complaint.html"
@@ -375,21 +257,6 @@ class="card">
 <p>
 
 Submit complaints with AI system.
-
-</p>
-
-</a>
-
-<a href="admin.html"
-class="card">
-
-<div class="icon">📍</div>
-
-<h2>Track Complaint</h2>
-
-<p>
-
-Track complaint status live.
 
 </p>
 
@@ -464,624 +331,33 @@ document.getElementById("bell");
 
 const notificationBox =
 document.getElementById(
-  "notificationBox"
+"notificationBox"
 );
-
-// CLICK EVENT
 
 bell.addEventListener("click",()=>{
 
-  if(notificationBox.style.display
-    =="block"){
+if(notificationBox.style.display
+=="block"){
 
-    notificationBox.style.display
-    ="none";
+notificationBox.style.display
+="none";
 
-  }else{
+}else{
 
-    notificationBox.style.display
-    ="block";
-
-  }
-
-});
-
-// LOAD DATA
-
-async function loadNotifications(){
-
-  const res = await fetch(
-    "http://127.0.0.1:5000/get-complaints"
-  );
-
-  const data = await res.json();
-
-  // badge
-
-  document.getElementById("badge")
-  .innerHTML = data.length;
-
-  // notifications
-
-  let html = "";
-
-  data.reverse().forEach(item => {
-
-    html += `
-
-    <div class="notification-item">
-
-      <h4>${item.title}</h4>
-
-      <p>Status: ${item.status}</p>
-
-    </div>
-
-    `;
-
-  });
-
-  document.getElementById(
-    "notificationList"
-  ).innerHTML = html;
+notificationBox.style.display
+="block";
 
 }
 
-loadNotifications();
-
-// LOGOUT
+});
 
 function logout(){
 
-  window.location.href="index.html";
+window.location.href="index.html";
 
 }
 
 </script>
 
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Smart Civic Dashboard</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-
-  min-height:100vh;
-
-  padding:30px;
-
-  background:
-  radial-gradient(circle at top left,#2563eb,#020617 40%),
-  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
-
-  color:white;
-
-  overflow-x:hidden;
-}
-
-/* HEADER */
-
-.header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:40px;
-}
-
-.logo{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-}
-
-.logo-box{
-
-  width:50px;
-
-  height:50px;
-
-  border-radius:15px;
-
-  background:linear-gradient(135deg,#3b82f6,#9333ea);
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  font-size:24px;
-
-  font-weight:bold;
-}
-
-.right{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:20px;
-
-  position:relative;
-}
-
-/* BELL */
-
-.notify{
-
-  position:relative;
-
-  cursor:pointer;
-
-  user-select:none;
-
-  font-size:32px;
-}
-
-.badge{
-
-  position:absolute;
-
-  top:-8px;
-
-  right:-10px;
-
-  width:22px;
-
-  height:22px;
-
-  border-radius:50%;
-
-  background:#ef4444;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  font-size:12px;
-
-  font-weight:bold;
-}
-
-/* NOTIFICATION BOX */
-
-.notification-box{
-
-  position:absolute;
-
-  top:60px;
-
-  right:0;
-
-  width:320px;
-
-  max-height:350px;
-
-  overflow:auto;
-
-  background:#0f172a;
-
-  border-radius:18px;
-
-  padding:15px;
-
-  display:none;
-
-  z-index:9999;
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  box-shadow:0 0 30px rgba(0,0,0,0.4);
-}
-
-.notification-item{
-
-  padding:14px;
-
-  border-radius:12px;
-
-  background:rgba(255,255,255,0.06);
-
-  margin-bottom:12px;
-}
-
-.notification-item h4{
-
-  margin-bottom:6px;
-
-  font-size:15px;
-}
-
-.notification-item p{
-
-  font-size:13px;
-
-  color:#cbd5e1;
-}
-
-/* LOGOUT */
-
-.logout{
-
-  padding:12px 24px;
-
-  border:none;
-
-  border-radius:14px;
-
-  background:#ef4444;
-
-  color:white;
-
-  cursor:pointer;
-
-  font-size:15px;
-}
-
-/* HERO */
-
-.hero{
-
-  margin-bottom:40px;
-}
-
-.hero h1{
-
-  font-size:55px;
-
-  margin-bottom:10px;
-}
-
-.hero p{
-
-  color:#cbd5e1;
-
-  font-size:20px;
-}
-
-/* GRID */
-
-.grid{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(280px,1fr));
-
-  gap:25px;
-}
-
-/* CARD */
-
-.card{
-
-  background:rgba(255,255,255,0.06);
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  backdrop-filter:blur(20px);
-
-  border-radius:25px;
-
-  padding:35px;
-
-  transition:0.3s;
-
-  cursor:pointer;
-
-  text-decoration:none;
-
-  color:white;
-}
-
-.card:hover{
-
-  transform:translateY(-5px);
-
-  background:rgba(255,255,255,0.09);
-}
-
-.icon{
-
-  font-size:55px;
-
-  margin-bottom:20px;
-}
-
-.card h2{
-
-  margin-bottom:12px;
-
-  font-size:24px;
-}
-
-.card p{
-
-  color:#cbd5e1;
-
-  line-height:1.6;
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-
-<div class="header">
-
-<div class="logo">
-
-<div class="logo-box">S</div>
-
-<h2>Smart Civic Complaints</h2>
-
-</div>
-
-<div class="right">
-
-<!-- BELL -->
-
-<div class="notify"
-id="bell">
-
-🔔
-
-<div class="badge"
-id="badge">
-
-0
-
-</div>
-
-</div>
-
-<!-- NOTIFICATION BOX -->
-
-<div class="notification-box"
-id="notificationBox">
-
-<div id="notificationList">
-
-Loading...
-
-</div>
-
-</div>
-
-<button class="logout"
-onclick="logout()">
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-<!-- HERO -->
-
-<div class="hero">
-
-<h1>Dashboard 👋</h1>
-
-<p>
-
-AI Powered Civic Complaint
-Management System
-
-</p>
-
-</div>
-
-<!-- GRID -->
-
-<div class="grid">
-
-<a href="complaint.html"
-class="card">
-
-<div class="icon">📝</div>
-
-<h2>Register Complaint</h2>
-
-<p>
-
-Submit complaints with AI system.
-
-</p>
-
-</a>
-
-<a href="admin.html"
-class="card">
-
-<div class="icon">📍</div>
-
-<h2>Track Complaint</h2>
-
-<p>
-
-Track complaint status live.
-
-</p>
-
-</a>
-
-<a href="history.html"
-class="card">
-
-<div class="icon">📂</div>
-
-<h2>Complaint History</h2>
-
-<p>
-
-View all complaint records.
-
-</p>
-
-</a>
-
-<a href="analytics.html"
-class="card">
-
-<div class="icon">📊</div>
-
-<h2>Analytics</h2>
-
-<p>
-
-View charts and complaint stats.
-
-</p>
-
-</a>
-
-<a href="feedback.html?id=1"
-class="card">
-
-<div class="icon">⭐</div>
-
-<h2>Feedback</h2>
-
-<p>
-
-Give ratings and reviews.
-
-</p>
-
-</a>
-
-<a href="admin.html"
-class="card">
-
-<div class="icon">🛡️</div>
-
-<h2>Admin Panel</h2>
-
-<p>
-
-Manage complaints and status.
-
-</p>
-
-</a>
-
-</div>
-
-<script>
-
-const bell =
-document.getElementById("bell");
-
-const notificationBox =
-document.getElementById(
-  "notificationBox"
-);
-
-// CLICK EVENT
-
-bell.addEventListener("click",()=>{
-
-  if(notificationBox.style.display
-    =="block"){
-
-    notificationBox.style.display
-    ="none";
-
-  }else{
-
-    notificationBox.style.display
-    ="block";
-
-  }
-
-});
-
-// LOAD DATA
-
-async function loadNotifications(){
-
-  const res = await fetch(
-    "http://127.0.0.1:5000/get-complaints"
-  );
-
-  const data = await res.json();
-
-  // badge
-
-  document.getElementById("badge")
-  .innerHTML = data.length;
-
-  // notifications
-
-  let html = "";
-
-  data.reverse().forEach(item => {
-
-    html += `
-
-    <div class="notification-item">
-
-      <h4>${item.title}</h4>
-
-      <p>Status: ${item.status}</p>
-
-    </div>
-
-    `;
-
-  });
-
-  document.getElementById(
-    "notificationList"
-  ).innerHTML = html;
-
-}
-
-loadNotifications();
-
-// LOGOUT
-
-function logout(){
-
-  window.location.href="index.html";
-
-}
-
-</script>
-
-</body>
->>>>>>> 97579c426bafa0db651d944dd151f21feb31ca43
 </html>

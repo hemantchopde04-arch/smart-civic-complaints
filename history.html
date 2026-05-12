@@ -30,42 +30,29 @@ margin-bottom:30px;
 }
 
 .grid{
-
 display:grid;
 
 grid-template-columns:
 repeat(auto-fit,minmax(320px,1fr));
 
 gap:20px;
-
 }
 
 .card{
-
 background:#1e293b;
-
 padding:20px;
-
 border-radius:20px;
-
 }
 
 .card img{
-
 width:100%;
-
 height:220px;
-
 object-fit:cover;
-
 border-radius:15px;
-
 margin-top:15px;
-
 }
 
 .status{
-
 display:inline-block;
 
 padding:10px 18px;
@@ -81,55 +68,33 @@ background:linear-gradient(
 );
 
 font-weight:bold;
-
 }
 
 .feedbackBox{
-
 margin-top:20px;
-
 background:#0f172a;
-
 padding:15px;
-
 border-radius:15px;
-
 }
 
 textarea{
-
 width:100%;
-
 height:90px;
-
 border:none;
-
 outline:none;
-
 padding:15px;
-
 border-radius:15px;
-
 background:#334155;
-
 color:white;
-
 resize:none;
-
 margin-top:10px;
-
 }
 
 button{
-
 width:100%;
-
 padding:14px;
-
 margin-top:15px;
-
 border:none;
-
 border-radius:15px;
 
 background:linear-gradient(
@@ -139,13 +104,9 @@ background:linear-gradient(
 );
 
 color:white;
-
 font-size:16px;
-
 cursor:pointer;
-
 font-weight:bold;
-
 }
 
 button:hover{
@@ -153,13 +114,9 @@ opacity:0.9;
 }
 
 .feedbackText{
-
 margin-top:12px;
-
 color:#cbd5e1;
-
 line-height:1.5;
-
 }
 
 </style>
@@ -335,7 +292,7 @@ try{
 
 const response = await fetch(
 
-`${API}/submit-feedback`,
+`${API}/submit-feedback/${id}`,
 
 {
 method:"POST",
@@ -346,8 +303,6 @@ headers:{
 },
 
 body:JSON.stringify({
-
-id:id,
 
 feedback:feedback
 
@@ -379,6 +334,11 @@ alert(
 }
 
 loadComplaints();
+
+setInterval(
+loadComplaints,
+3000
+);
 
 </script>
 

@@ -142,47 +142,79 @@ class="back">
 
 <script>
 
+const API =
+"https://smart-civic-backend-dplj.onrender.com";
+
 const params =
 new URLSearchParams(window.location.search);
 
 const id = params.get("id");
 
-function submitFeedback(){
+async function submitFeedback(){
 
-  const feedback =
-  document.getElementById("feedback")
-  .value;
+const feedback =
+document.getElementById("feedback")
+.value;
 
-  if(feedback === ""){
+if(feedback === ""){
 
-    alert("Please enter feedback");
+alert("Please enter feedback");
 
-    return;
-  }
+return;
 
-  let complaints = JSON.parse(
-    localStorage.getItem("complaints")
-  ) || [];
+}
 
-  complaints = complaints.map(item => {
+try{
 
-    if(item.id == id){
+const res = await fetch(
 
-      item.feedback = feedback;
-    }
+`${API}/submit-feedback/${id}`,
 
-    return item;
-  });
+{
 
-  localStorage.setItem(
-    "complaints",
-    JSON.stringify(complaints)
-  );
+method:"POST",
 
-  alert("Feedback Submitted Successfully");
+headers:{
+"Content-Type":"application/json"
+},
 
-  window.location.href =
-  "history.html";
+body:JSON.stringify({
+
+feedback:feedback
+
+})
+
+}
+
+);
+
+const data = await res.json();
+
+if(data.success){
+
+alert(
+"Feedback Submitted Successfully ✅"
+);
+
+window.location.href =
+"history.html";
+
+}else{
+
+alert("Failed to submit feedback");
+
+}
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Server Error");
+
+}
+
 }
 
 </script>

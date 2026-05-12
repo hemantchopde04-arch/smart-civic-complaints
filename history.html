@@ -73,6 +73,19 @@ body{
   backdrop-filter:blur(20px);
 }
 
+.card img{
+
+  width:100%;
+
+  height:220px;
+
+  object-fit:cover;
+
+  border-radius:15px;
+
+  margin-top:15px;
+}
+
 .status{
 
   display:inline-block;
@@ -140,15 +153,19 @@ Loading...
 
 <script>
 
+const API =
+"https://smart-civic-backend-dplj.onrender.com";
+
 async function loadHistory(){
 
 try{
 
 const response = await fetch(
-"https://smart-civic-backend-dplj.onrender.com/get_complaints"
+`${API}/get-complaints`
 );
 
-const complaints = await response.json();
+const complaints =
+await response.json();
 
 let html = "";
 
@@ -194,6 +211,14 @@ ${item.status}
 
 </div>
 
+${
+item.image
+?
+`<img src="${API}/uploads/${item.image}">`
+:
+""
+}
+
 <a href="
 feedback.html?id=${item.id}
 "
@@ -207,7 +232,11 @@ Give Feedback ⭐
 
 <b>Feedback:</b>
 
-${item.feedback || "No Feedback Yet"}
+${
+item.feedback
+? item.feedback
+: "No Feedback Yet"
+}
 
 </div>
 
@@ -232,7 +261,20 @@ console.log(error);
 document.getElementById(
 "historyBox"
 ).innerHTML =
-"Server Error";
+
+`
+
+<div class="card">
+
+<h2>Server Error</h2>
+
+<p>
+Failed to load complaints
+</p>
+
+</div>
+
+`;
 
 }
 

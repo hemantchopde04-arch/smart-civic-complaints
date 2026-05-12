@@ -7,118 +7,117 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Analytics Dashboard</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
 rel="stylesheet">
 
 <style>
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 body{
 
-  min-height:100vh;
+min-height:100vh;
 
-  padding:30px;
+padding:30px;
 
-  background:
-  radial-gradient(circle at top left,#2563eb,#020617 40%),
-  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
+background:
+radial-gradient(circle at top left,#2563eb,#020617 40%),
+radial-gradient(circle at bottom right,#9333ea,#020617 40%);
 
-  color:white;
+color:white;
 }
 
 .top{
 
-  display:flex;
+display:flex;
 
-  justify-content:space-between;
+justify-content:space-between;
 
-  align-items:center;
+align-items:center;
 
-  margin-bottom:30px;
+margin-bottom:30px;
 }
 
 .top a{
 
-  color:#60a5fa;
+color:#60a5fa;
 
-  text-decoration:none;
-
-  font-size:18px;
+text-decoration:none;
 }
 
 .cards{
 
-  display:grid;
+display:grid;
 
-  grid-template-columns:
-  repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
 
-  gap:20px;
+gap:20px;
 
-  margin-bottom:30px;
+margin-bottom:30px;
 }
 
 .card{
 
-  background:rgba(255,255,255,0.06);
+padding:30px;
 
-  border-radius:20px;
+border-radius:20px;
 
-  padding:25px;
+background:rgba(255,255,255,0.06);
 
-  text-align:center;
+border:1px solid rgba(255,255,255,0.1);
 
-  border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(20px);
 
-  backdrop-filter:blur(20px);
-}
-
-.card h3{
-
-  margin-bottom:10px;
-
-  color:#cbd5e1;
+text-align:center;
 }
 
 .card h2{
 
-  font-size:45px;
+font-size:40px;
+
+margin-top:15px;
 }
 
-.chart-box{
+.chart{
 
-  background:rgba(255,255,255,0.06);
+padding:30px;
 
-  border-radius:20px;
+border-radius:20px;
 
-  padding:30px;
+background:rgba(255,255,255,0.06);
 
-  border:1px solid rgba(255,255,255,0.1);
+border:1px solid rgba(255,255,255,0.1);
 
-  backdrop-filter:blur(20px);
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  height:500px;
+backdrop-filter:blur(20px);
 }
 
-canvas{
+.bar{
 
-  max-width:450px !important;
+height:35px;
 
-  max-height:450px !important;
+border-radius:10px;
+
+margin-top:15px;
+
+padding-left:15px;
+
+display:flex;
+
+align-items:center;
+
+font-weight:bold;
+
+background:linear-gradient(
+90deg,
+#3b82f6,
+#9333ea
+);
 }
 
 </style>
@@ -174,129 +173,127 @@ canvas{
 
 </div>
 
-<div class="chart-box">
+<div class="chart">
 
-<canvas id="myChart"></canvas>
+<h2>Category Analytics</h2>
+
+<div
+class="bar"
+id="waterBar">
+
+Water : 0
+
+</div>
+
+<div
+class="bar"
+id="roadBar">
+
+Roads : 0
+
+</div>
+
+<div
+class="bar"
+id="electricBar">
+
+Electricity : 0
+
+</div>
+
+<div
+class="bar"
+id="cleanBar">
+
+Cleanliness : 0
+
+</div>
 
 </div>
 
 <script>
 
-async function loadAnalytics(){
+const complaints =
+JSON.parse(
+localStorage.getItem("complaints")
+) || [];
 
-  try{
+document.getElementById(
+"total"
+).innerHTML = complaints.length;
 
-    const res = await fetch(
-      "http://127.0.0.1:5000/get-complaints"
-    );
+let pending = 0;
+let progress = 0;
+let resolved = 0;
 
-    const data = await res.json();
+let water = 0;
+let roads = 0;
+let electricity = 0;
+let clean = 0;
 
-    const total = data.length;
+complaints.forEach(item => {
 
-    const pending =
-    data.filter(
-      item => item.status=="Pending"
-    ).length;
-
-    const progress =
-    data.filter(
-      item => item.status=="In Progress"
-    ).length;
-
-    const resolved =
-    data.filter(
-      item => item.status=="Resolved"
-    ).length;
-
-    document.getElementById("total")
-    .innerHTML = total;
-
-    document.getElementById("pending")
-    .innerHTML = pending;
-
-    document.getElementById("progress")
-    .innerHTML = progress;
-
-    document.getElementById("resolved")
-    .innerHTML = resolved;
-
-    const ctx =
-    document.getElementById("myChart");
-
-    new Chart(ctx, {
-
-      type:"doughnut",
-
-      data:{
-
-        labels:[
-          "Pending",
-          "In Progress",
-          "Resolved"
-        ],
-
-        datasets:[{
-
-          data:[
-            pending,
-            progress,
-            resolved
-          ],
-
-          backgroundColor:[
-
-            "#facc15",
-            "#38bdf8",
-            "#22c55e"
-
-          ],
-
-          borderWidth:2
-
-        }]
-
-      },
-
-      options:{
-
-        responsive:true,
-
-        plugins:{
-
-          legend:{
-
-            labels:{
-
-              color:"white",
-
-              font:{
-                size:16
-              }
-
-            }
-
-          }
-
-        }
-
-      }
-
-    });
-
-  }
-
-  catch(error){
-
-    console.log(error);
-
-    alert("Failed to load analytics");
-
-  }
-
+if(item.status === "Pending"){
+pending++;
 }
 
-loadAnalytics();
+if(item.status === "In Progress"){
+progress++;
+}
+
+if(item.status === "Resolved"){
+resolved++;
+}
+
+if(item.category === "Water"){
+water++;
+}
+
+if(item.category === "Roads"){
+roads++;
+}
+
+if(item.category === "Electricity"){
+electricity++;
+}
+
+if(item.category === "Cleanliness"){
+clean++;
+}
+
+});
+
+document.getElementById(
+"pending"
+).innerHTML = pending;
+
+document.getElementById(
+"progress"
+).innerHTML = progress;
+
+document.getElementById(
+"resolved"
+).innerHTML = resolved;
+
+document.getElementById(
+"waterBar"
+).innerHTML =
+"Water : " + water;
+
+document.getElementById(
+"roadBar"
+).innerHTML =
+"Roads : " + roads;
+
+document.getElementById(
+"electricBar"
+).innerHTML =
+"Electricity : " + electricity;
+
+document.getElementById(
+"cleanBar"
+).innerHTML =
+"Cleanliness : " + clean;
 
 </script>
 

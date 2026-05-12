@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -9,41 +12,160 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
 body{
+
 background:#0f172a;
 color:white;
-font-family:Arial;
 padding:20px;
+
+}
+
+h1{
+
+margin-bottom:30px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(320px,1fr));
+
+gap:20px;
+
 }
 
 .card{
+
 background:#1e293b;
+
 padding:20px;
-margin-bottom:20px;
+
+border-radius:20px;
+
+}
+
+.card img{
+
+width:100%;
+
+height:220px;
+
+object-fit:cover;
+
 border-radius:15px;
+
+margin-top:15px;
+
 }
 
 .status{
-padding:8px 15px;
-background:#2563eb;
+
 display:inline-block;
-border-radius:10px;
-margin-top:10px;
-font-weight:bold;
-}
 
-img{
-width:100%;
-max-width:300px;
-border-radius:10px;
-margin-top:10px;
-}
+padding:10px 18px;
 
-.feedback-box{
-background:#0f172a;
-padding:15px;
-border-radius:10px;
+border-radius:12px;
+
 margin-top:15px;
+
+background:linear-gradient(
+45deg,
+#3b82f6,
+#9333ea
+);
+
+font-weight:bold;
+
+}
+
+.feedbackBox{
+
+margin-top:20px;
+
+background:#0f172a;
+
+padding:15px;
+
+border-radius:15px;
+
+}
+
+textarea{
+
+width:100%;
+
+height:90px;
+
+border:none;
+
+outline:none;
+
+padding:15px;
+
+border-radius:15px;
+
+background:#334155;
+
+color:white;
+
+resize:none;
+
+margin-top:10px;
+
+}
+
+button{
+
+width:100%;
+
+padding:14px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:15px;
+
+background:linear-gradient(
+45deg,
+#3b82f6,
+#9333ea
+);
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+button:hover{
+
+opacity:0.9;
+
+}
+
+.feedbackText{
+
+margin-top:12px;
+
+color:#cbd5e1;
+
+line-height:1.5;
+
 }
 
 </style>
@@ -52,9 +174,13 @@ margin-top:15px;
 
 <body>
 
-<h1>Complaint History 📂</h1>
+<h1>
+Complaint History 📂
+</h1>
 
-<div id="historyBox">
+<div
+class="grid"
+id="historyBox">
 
 Loading...
 
@@ -73,7 +199,8 @@ const response = await fetch(
 `${API}/get-complaints`
 );
 
-const complaints = await response.json();
+const complaints =
+await response.json();
 
 let html = "";
 
@@ -83,27 +210,78 @@ html += `
 
 <div class="card">
 
-<h2>${item.title}</h2>
+<h2>
+${item.title}
+</h2>
 
-<p><b>Name:</b> ${item.name}</p>
+<br>
 
-<p><b>Area:</b> ${item.area}</p>
+<p>
+<b>Name:</b>
+${item.name}
+</p>
 
-<p><b>Category:</b> ${item.category}</p>
+<br>
 
-<p><b>Description:</b> ${item.description}</p>
+<p>
+<b>Area:</b>
+${item.area}
+</p>
+
+<br>
+
+<p>
+<b>Category:</b>
+${item.category}
+</p>
+
+<br>
+
+<p>
+<b>AI:</b>
+${item.ai_category}
+</p>
+
+<br>
+
+<p>
+${item.description}
+</p>
 
 <div class="status">
 
-Status : ${item.status}
+${item.status}
 
 </div>
 
-<div class="feedback-box">
+${
+item.image
+?
+`<img src="${API}/uploads/${item.image}">`
+:
+""
+}
+
+<div class="feedbackBox">
+
+<h3>
+Give Feedback ⭐
+</h3>
+
+<textarea
+id="feedback-${item.id}"
+placeholder="Write feedback here..."></textarea>
+
+<button
+onclick="submitFeedback(${item.id})">
+
+Submit Feedback
+
+</button>
+
+<div class="feedbackText">
 
 <b>Feedback:</b>
-
-<br><br>
 
 ${
 item.feedback
@@ -115,15 +293,7 @@ item.feedback
 
 </div>
 
-<br><br>
-
-${
-item.image
-?
-`<img src="${API}/uploads/${item.image}">`
-:
-""
-}
+</div>
 
 </div>
 
@@ -150,9 +320,76 @@ document.getElementById(
 
 }
 
+async function submitFeedback(id){
+
+const feedback =
+document.getElementById(
+`feedback-${id}`
+).value;
+
+if(feedback==""){
+
+alert(
+"Please Write Feedback"
+);
+
+return;
+
+}
+
+try{
+
+const response = await fetch(
+
+`${API}/submit-feedback`,
+
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+id:id,
+
+feedback:feedback
+
+})
+
+}
+
+);
+
+const data =
+await response.json();
+
+alert(data.message);
+
 loadComplaints();
 
-setInterval(loadComplaints,3000);
+}
+
+catch(error){
+
+console.log(error);
+
+alert(
+"Feedback Failed"
+);
+
+}
+
+}
+
+loadComplaints();
+
+setInterval(
+loadComplaints,
+3000
+);
 
 </script>
 

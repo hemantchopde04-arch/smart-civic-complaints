@@ -39,6 +39,13 @@ border-radius:10px;
 margin-top:10px;
 }
 
+.feedback-box{
+background:#0f172a;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+}
+
 </style>
 
 </head>
@@ -89,6 +96,22 @@ html += `
 <div class="status">
 
 Status : ${item.status}
+
+</div>
+
+<div class="feedback-box">
+
+<b>Feedback:</b>
+
+<br><br>
+
+${
+item.feedback
+?
+item.feedback
+:
+"No Feedback Yet"
+}
 
 </div>
 

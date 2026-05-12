@@ -7,145 +7,46 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Complaint History</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-rel="stylesheet">
-
 <style>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
 body{
-
-  min-height:100vh;
-
-  padding:30px;
-
-  background:
-  radial-gradient(circle at top left,#2563eb,#020617 40%),
-  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
-
-  color:white;
-}
-
-.top{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:30px;
-}
-
-.top a{
-
-  color:#60a5fa;
-
-  text-decoration:none;
-}
-
-.grid{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(320px,1fr));
-
-  gap:20px;
+background:#0f172a;
+color:white;
+font-family:Arial;
+padding:20px;
 }
 
 .card{
-
-  background:rgba(255,255,255,0.06);
-
-  border-radius:20px;
-
-  padding:20px;
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  backdrop-filter:blur(20px);
-}
-
-.card img{
-
-  width:100%;
-
-  height:220px;
-
-  object-fit:cover;
-
-  border-radius:15px;
-
-  margin-top:15px;
+background:#1e293b;
+padding:20px;
+margin-bottom:20px;
+border-radius:15px;
 }
 
 .status{
-
-  display:inline-block;
-
-  margin-top:15px;
-
-  padding:8px 14px;
-
-  border-radius:10px;
-
-  background:#3b82f6;
+padding:8px 15px;
+background:#2563eb;
+display:inline-block;
+border-radius:10px;
+margin-top:10px;
 }
 
-.feedback-btn{
-
-  display:block;
-
-  margin-top:15px;
-
-  text-align:center;
-
-  padding:12px;
-
-  border-radius:12px;
-
-  background:linear-gradient(90deg,#3b82f6,#9333ea);
-
-  color:white;
-
-  text-decoration:none;
-}
-
-.feedback-text{
-
-  margin-top:15px;
-
-  color:#cbd5e1;
-
-  font-size:14px;
+img{
+width:100%;
+max-width:300px;
+border-radius:10px;
+margin-top:10px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="top">
-
 <h1>Complaint History 📂</h1>
 
-<a href="dashboard.html">
-
-← Back
-
-</a>
-
-</div>
-
-<div class="grid"
-id="historyBox">
+<div id="historyBox">
 
 Loading...
 
@@ -153,41 +54,17 @@ Loading...
 
 <script>
 
-const API =
-"https://smart-civic-backend-dplj.onrender.com";
-
-async function loadHistory(){
+async function loadComplaints(){
 
 try{
 
 const response = await fetch(
-`${API}/get-complaints`
+"https://smart-civic-backend-dplj.onrender.com/get-complaints"
 );
 
-const complaints =
-await response.json();
+const complaints = await response.json();
 
 let html = "";
-
-if(complaints.length === 0){
-
-html = `
-
-<div class="card">
-
-<h2>No Complaints Found</h2>
-
-<p>
-No complaints submitted yet.
-</p>
-
-</div>
-
-`;
-
-}
-
-else{
 
 complaints.reverse().forEach(item => {
 
@@ -211,42 +88,21 @@ ${item.status}
 
 </div>
 
+<br><br>
+
 ${
 item.image
 ?
-`<img src="${API}/uploads/${item.image}">`
+`<img src="https://smart-civic-backend-dplj.onrender.com/uploads/${item.image}">`
 :
 ""
 }
-
-<a href="
-feedback.html?id=${item.id}
-"
-class="feedback-btn">
-
-Give Feedback ⭐
-
-</a>
-
-<div class="feedback-text">
-
-<b>Feedback:</b>
-
-${
-item.feedback
-? item.feedback
-: "No Feedback Yet"
-}
-
-</div>
 
 </div>
 
 `;
 
 });
-
-}
 
 document.getElementById(
 "historyBox"
@@ -261,26 +117,13 @@ console.log(error);
 document.getElementById(
 "historyBox"
 ).innerHTML =
-
-`
-
-<div class="card">
-
-<h2>Server Error</h2>
-
-<p>
-Failed to load complaints
-</p>
-
-</div>
-
-`;
+"Server Error";
 
 }
 
 }
 
-loadHistory();
+loadComplaints();
 
 </script>
 

@@ -274,6 +274,9 @@ Submit Complaint
 
 <script>
 
+const API =
+"https://smart-civic-backend-dplj.onrender.com";
+
 function detectCategory(){
 
 const text =
@@ -330,7 +333,7 @@ document.getElementById(
 
 }
 
-function submitComplaint(){
+async function submitComplaint(){
 
 const name =
 document.getElementById("name").value;
@@ -347,6 +350,9 @@ document.getElementById("area").value;
 const category =
 document.getElementById("category").value;
 
+const image =
+document.getElementById("image").files[0];
+
 if(
 name === "" ||
 title === "" ||
@@ -361,35 +367,33 @@ return;
 
 }
 
-const complaints =
-JSON.parse(
-localStorage.getItem("complaints")
-) || [];
+const formData = new FormData();
 
-const newComplaint = {
+formData.append("name", name);
+formData.append("title", title);
+formData.append("description", description);
+formData.append("area", area);
+formData.append("category", category);
 
-id: complaints.length + 1,
+if(image){
 
-name:name,
+formData.append("image", image);
 
-title:title,
+}
 
-description:description,
+try{
 
-area:area,
-
-category:category,
-
-status:"Pending"
-
-};
-
-complaints.push(newComplaint);
-
-localStorage.setItem(
-"complaints",
-JSON.stringify(complaints)
+const res = await fetch(
+`${API}/submit-complaint`,
+{
+method:"POST",
+body:formData
+}
 );
+
+const data = await res.json();
+
+if(data.success){
 
 alert(
 "Complaint Submitted Successfully ✅"
@@ -397,6 +401,22 @@ alert(
 
 window.location.href =
 "dashboard.html";
+
+}else{
+
+alert("Failed to submit complaint");
+
+}
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Server Error");
+
+}
 
 }
 

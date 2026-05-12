@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Register Complaint</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+
+  min-height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  padding:30px;
+
+  background:
+  radial-gradient(circle at top left,#2563eb,#020617 40%),
+  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
+
+  color:white;
+}
+
+.card{
+
+  width:500px;
+
+  padding:30px;
+
+  border-radius:25px;
+
+  background:rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.1);
+
+  box-shadow:0 0 40px rgba(0,0,0,0.4);
+}
+
+.logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:20px;
+}
+
+.logo-box{
+
+  width:45px;
+
+  height:45px;
+
+  border-radius:12px;
+
+  background:linear-gradient(135deg,#3b82f6,#9333ea);
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  font-weight:bold;
+
+  font-size:20px;
+}
+
+h2{
+
+  margin-bottom:20px;
+}
+
+input,
+textarea,
+select{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-top:15px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.07);
+
+  color:white;
+
+  outline:none;
+}
+
+textarea{
+
+  resize:none;
+
+  height:120px;
+}
+
+select option{
+
+  background:#0f172a;
+
+  color:white;
+}
+
+button{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-top:20px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:linear-gradient(90deg,#3b82f6,#9333ea);
+
+  color:white;
+
+  cursor:pointer;
+
+  font-size:16px;
+}
+
+button:hover{
+
+  opacity:0.9;
+}
+
+.ai-box{
+
+  margin-top:20px;
+
+  padding:15px;
+
+  border-radius:15px;
+
+  background:rgba(59,130,246,0.15);
+
+  border:1px solid rgba(59,130,246,0.3);
+
+  display:none;
+}
+
+.back{
+
+  margin-top:15px;
+
+  text-align:center;
+}
+
+.back a{
+
+  color:#60a5fa;
+
+  text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">
+
+<div class="logo-box">S</div>
+
+<h2>Smart Civic Complaints</h2>
+
+</div>
+
+<h2>Register Complaint 📝</h2>
+
+<input
+type="text"
+id="name"
+placeholder="Enter Your Name">
+
+<input
+type="text"
+id="title"
+placeholder="Complaint Title">
+
+<textarea
+id="description"
+placeholder="Describe your issue">
+</textarea>
+
+<input
+type="text"
+id="area"
+placeholder="Enter Area / Location">
+
+<select id="category">
+
+<option value="">
+Select Category
+</option>
+
+<option>Water</option>
+
+<option>Electricity</option>
+
+<option>Roads</option>
+
+<option>Cleanliness</option>
+
+<option>Other</option>
+
+</select>
+
+<input
+type="file"
+id="image">
+
+<button onclick="detectAI()">
+
+Detect AI Category
+
+</button>
+
+<!-- AI RESULT -->
+
+<div class="ai-box"
+id="aiBox">
+
+🤖 AI Detected Category:
+<span id="aiResult"></span>
+
+</div>
+
+<button onclick="submitComplaint()">
+
+Submit Complaint
+
+</button>
+
+<div class="back">
+
+<a href="dashboard.html">
+
+← Back to Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+// AI DETECTION
+
+function detectAI(){
+
+  const text =
+  document.getElementById(
+    "description"
+  ).value.toLowerCase();
+
+  let result = "Other";
+
+  if(
+    text.includes("water")
+    ||
+    text.includes("pipe")
+    ||
+    text.includes("drain")
+  ){
+
+    result = "Water";
+
+  }
+
+  else if(
+    text.includes("light")
+    ||
+    text.includes("electricity")
+    ||
+    text.includes("power")
+  ){
+
+    result = "Electricity";
+
+  }
+
+  else if(
+    text.includes("road")
+    ||
+    text.includes("street")
+    ||
+    text.includes("pothole")
+  ){
+
+    result = "Roads";
+
+  }
+
+  else if(
+    text.includes("garbage")
+    ||
+    text.includes("dirty")
+    ||
+    text.includes("clean")
+  ){
+
+    result = "Cleanliness";
+
+  }
+
+  document.getElementById(
+    "aiBox"
+  ).style.display="block";
+
+  document.getElementById(
+    "aiResult"
+  ).innerHTML=result;
+
+}
+
+// SUBMIT COMPLAINT
+
+async function submitComplaint(){
+
+  const name =
+  document.getElementById("name")
+  .value;
+
+  const title =
+  document.getElementById("title")
+  .value;
+
+  const description =
+  document.getElementById(
+    "description"
+  ).value;
+
+  const area =
+  document.getElementById("area")
+  .value;
+
+  const category =
+  document.getElementById("category")
+  .value;
+
+  const ai_category =
+  document.getElementById(
+    "aiResult"
+  ).innerHTML;
+
+  const image =
+  document.getElementById("image")
+  .files[0];
+
+  // VALIDATION
+
+  if(
+    !name
+    ||
+    !title
+    ||
+    !description
+    ||
+    !area
+    ||
+    !category
+  ){
+
+    alert("Please fill all fields");
+
+    return;
+  }
+
+  // FORMDATA
+
+  const formData =
+  new FormData();
+
+  formData.append("name",name);
+
+  formData.append("title",title);
+
+  formData.append(
+    "description",
+    description
+  );
+
+  formData.append("area",area);
+
+  formData.append(
+    "category",
+    category
+  );
+
+  formData.append(
+    "ai_category",
+    ai_category
+  );
+
+  formData.append(
+    "image",
+    image
+  );
+
+  // API
+
+  const res = await fetch(
+
+    "http://127.0.0.1:5000/submit-complaint",
+
+    {
+
+      method:"POST",
+
+      body:formData
+
+    }
+
+  );
+
+  const data =
+  await res.json();
+
+  // SUCCESS
+
+  alert(data.message);
+
+  // REDIRECT
+
+  setTimeout(()=>{
+
+    window.location.href =
+    "dashboard.html";
+
+  },500);
+
+}
+
+</script>
+
+</body>
+</html>

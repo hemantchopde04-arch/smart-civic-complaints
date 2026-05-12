@@ -389,9 +389,17 @@ Get Started →
 function startApp(){
 
   window.location.href =
-  "index.html";
+  "login.html";
 
 }
+
+/* AUTO REDIRECT AFTER 3 SECONDS */
+
+setTimeout(() => {
+
+  window.location.href = "login.html";
+
+}, 3000);
 
 </script>
 

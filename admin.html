@@ -32,30 +32,35 @@ body{
   color:white;
 }
 
-h1{
-  margin-bottom:25px;
-}
-
-.top-bar{
+.top{
 
   display:flex;
 
-  gap:20px;
+  justify-content:space-between;
 
-  margin-bottom:20px;
+  align-items:center;
 
-  flex-wrap:wrap;
+  margin-bottom:25px;
 }
 
-.top-bar input{
+.top a{
 
-  width:300px;
+  color:#60a5fa;
 
-  padding:14px;
+  text-decoration:none;
+}
+
+.search{
+
+  width:100%;
+
+  padding:15px;
 
   border:none;
 
-  border-radius:14px;
+  border-radius:15px;
+
+  margin-bottom:25px;
 
   background:rgba(255,255,255,0.08);
 
@@ -64,33 +69,25 @@ h1{
   outline:none;
 }
 
-.table-box{
-
-  overflow:auto;
-
-  background:rgba(255,255,255,0.06);
-
-  border-radius:20px;
-
-  backdrop-filter:blur(20px);
-
-  padding:20px;
-
-  border:1px solid rgba(255,255,255,0.1);
-}
-
 table{
 
   width:100%;
 
   border-collapse:collapse;
+
+  background:rgba(255,255,255,0.05);
+
+  border-radius:20px;
+
+  overflow:hidden;
 }
 
-th,td{
+th,
+td{
 
   padding:15px;
 
-  text-align:left;
+  text-align:center;
 }
 
 th{
@@ -100,14 +97,14 @@ th{
 
 tr{
 
-  border-bottom:1px solid rgba(255,255,255,0.1);
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 img{
 
-  width:90px;
+  width:80px;
 
-  height:70px;
+  height:80px;
 
   object-fit:cover;
 
@@ -127,39 +124,11 @@ select{
   color:white;
 }
 
-button{
-
-  padding:8px 14px;
-
-  border:none;
-
-  border-radius:10px;
-
-  background:linear-gradient(90deg,#3b82f6,#9333ea);
-
-  color:white;
-
-  cursor:pointer;
-}
-
 .feedback{
-
-  max-width:220px;
 
   color:#cbd5e1;
 
   font-size:14px;
-}
-
-.back-btn{
-
-  display:inline-block;
-
-  margin-bottom:20px;
-
-  color:#60a5fa;
-
-  text-decoration:none;
 }
 
 </style>
@@ -167,26 +136,22 @@ button{
 
 <body>
 
-<a href="dashboard.html"
-class="back-btn">
+<div class="top">
+
+<h1>Admin Complaint Panel 📋</h1>
+
+<a href="dashboard.html">
 
 ← Back Dashboard
 
 </a>
 
-<h1>Admin Complaint Panel 📋</h1>
-
-<div class="top-bar">
-
-<input
-type="text"
-id="search"
-placeholder="Search Complaint..."
-onkeyup="loadComplaints()">
-
 </div>
 
-<div class="table-box">
+<input type="text"
+class="search"
+placeholder="Search Complaint..."
+onkeyup="searchComplaint(this.value)">
 
 <table>
 
@@ -202,7 +167,6 @@ onkeyup="loadComplaints()">
 <th>Image</th>
 <th>Status</th>
 <th>Feedback</th>
-<th>Action</th>
 
 </tr>
 
@@ -214,164 +178,124 @@ onkeyup="loadComplaints()">
 
 </table>
 
-</div>
-
 <script>
 
-async function loadComplaints(){
+let complaints =
+JSON.parse(
+localStorage.getItem("complaints")
+) || [];
 
-  try{
+function loadComplaints(data){
 
-    const res = await fetch(
-      "http://127.0.0.1:5000/get-complaints"
-    );
+  let html = "";
 
-    const data = await res.json();
+  data.reverse().forEach(item => {
 
-    const search =
-    document.getElementById("search")
-    .value.toLowerCase();
+    html += `
 
-    let rows = "";
+    <tr>
 
-    data.reverse().forEach(item => {
+      <td>${item.id}</td>
 
-      const match =
+      <td>${item.name}</td>
 
-      item.title.toLowerCase()
-      .includes(search)
+      <td>${item.title}</td>
 
-      ||
+      <td>${item.area}</td>
 
-      item.name.toLowerCase()
-      .includes(search);
+      <td>${item.category}</td>
 
-      if(match){
+      <td>
 
-        rows += `
+        ${
+          item.image
+          ?
+          `<img src="${item.image}">`
+          :
+          "No Image"
+        }
 
-        <tr>
+      </td>
 
-          <td>${item.id}</td>
+      <td>
 
-          <td>${item.name}</td>
+        <select onchange="updateStatus(${item.id},this.value)">
 
-          <td>${item.title}</td>
+          <option
+          ${item.status=="Pending"?"selected":""}>
+          Pending
+          </option>
 
-          <td>${item.area}</td>
+          <option
+          ${item.status=="In Progress"?"selected":""}>
+          In Progress
+          </option>
 
-          <td>${item.category}</td>
+          <option
+          ${item.status=="Resolved"?"selected":""}>
+          Resolved
+          </option>
 
-          <td>
+        </select>
 
-            <img src="
-            http://127.0.0.1:5000/uploads/${item.image}
-            ">
+      </td>
 
-          </td>
+      <td class="feedback">
 
-          <td>
+        ${
+          item.feedback
+          ? item.feedback
+          : "No Feedback"
+        }
 
-            <select id="status-${item.id}">
+      </td>
 
-              <option value="Pending"
-              ${item.status=="Pending"
-              ?"selected":""}>
-              Pending
-              </option>
+    </tr>
 
-              <option value="In Progress"
-              ${item.status=="In Progress"
-              ?"selected":""}>
-              In Progress
-              </option>
+    `;
 
-              <option value="Resolved"
-              ${item.status=="Resolved"
-              ?"selected":""}>
-              Resolved
-              </option>
+  });
 
-            </select>
-
-          </td>
-
-          <td class="feedback">
-
-            ${
-              item.feedback
-              ? item.feedback
-              : "No Feedback"
-            }
-
-          </td>
-
-          <td>
-
-            <button onclick="updateStatus(${item.id})">
-
-              Update
-
-            </button>
-
-          </td>
-
-        </tr>
-
-        `;
-
-      }
-
-    });
-
-    document.getElementById(
-      "tableBody"
-    ).innerHTML = rows;
-
-  }
-
-  catch(error){
-
-    console.log(error);
-
-  }
-
+  document.getElementById(
+    "tableBody"
+  ).innerHTML = html;
 }
 
-loadComplaints();
+function updateStatus(id,status){
 
-async function updateStatus(id){
+  complaints = complaints.map(item => {
 
-  const status =
-  document.getElementById(
-    `status-${id}`
-  ).value;
+    if(item.id == id){
 
-  await fetch(
-
-    `http://127.0.0.1:5000/update-status/${id}`,
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-        status:status
-      })
-
+      item.status = status;
     }
+
+    return item;
+  });
+
+  localStorage.setItem(
+    "complaints",
+    JSON.stringify(complaints)
+  );
+
+  loadComplaints(complaints);
+}
+
+function searchComplaint(text){
+
+  const filtered =
+  complaints.filter(item =>
+
+    item.title
+    .toLowerCase()
+    .includes(text.toLowerCase())
 
   );
 
-  alert("Status Updated");
-
-  loadComplaints();
-
+  loadComplaints(filtered);
 }
+
+loadComplaints(complaints);
 
 </script>
 

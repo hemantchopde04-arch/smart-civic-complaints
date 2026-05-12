@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Smart Civic Complaints</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -23,7 +26,7 @@ color:white;
 }
 
 .card{
-width:400px;
+width:420px;
 padding:35px;
 border-radius:30px;
 background:#111827;
@@ -76,7 +79,8 @@ color:white;
 background:linear-gradient(90deg,#3b82f6,#9333ea);
 }
 
-input{
+input,
+select{
 width:100%;
 padding:18px;
 margin-bottom:15px;
@@ -99,9 +103,6 @@ background:linear-gradient(90deg,#3b82f6,#9333ea);
 color:white;
 }
 
-.main-btn:hover{
-opacity:0.9;
-}
 </style>
 </head>
 
@@ -111,43 +112,262 @@ opacity:0.9;
 
 <div class="logo">S</div>
 
-<h1>Welcome 👋</h1>
+<h1>Smart Civic</h1>
 
 <p>AI Based Civic Complaint System</p>
 
 <div class="tabs">
-<button class="active">User Login</button>
-<button>Department Login</button>
+
+<button id="userBtn"
+class="active"
+onclick="showUser()">
+
+User Login
+
+</button>
+
+<button id="deptBtn"
+onclick="showDept()">
+
+Department Login
+
+</button>
+
 </div>
 
-<input type="text" id="phone" placeholder="Phone Number">
+<!-- USER LOGIN -->
 
-<input type="password" id="password" placeholder="Password">
+<div id="userForm">
 
-<button class="main-btn" onclick="sendOTP()">
+<input type="text"
+id="phone"
+placeholder="Phone Number">
+
+<input type="password"
+id="password"
+placeholder="Password">
+
+<button class="main-btn"
+onclick="sendOTP()">
+
 Send OTP
+
 </button>
+
+</div>
+
+<!-- DEPARTMENT LOGIN -->
+
+<div id="deptForm"
+style="display:none;">
+
+<select id="department">
+
+<option value="Water">
+Water Department
+</option>
+
+<option value="Electricity">
+Electricity Department
+</option>
+
+<option value="Roads">
+Roads Department
+</option>
+
+<option value="Cleanliness">
+Cleanliness Department
+</option>
+
+</select>
+
+<input type="text"
+id="deptId"
+placeholder="Department ID">
+
+<input type="text"
+id="deptPhone"
+placeholder="Department Phone">
+
+<input type="password"
+id="deptPassword"
+placeholder="Password">
+
+<button class="main-btn"
+onclick="departmentLogin()">
+
+Department Login
+
+</button>
+
+</div>
 
 </div>
 
 <script>
 
+function showUser(){
+
+document.getElementById(
+"userForm"
+).style.display="block";
+
+document.getElementById(
+"deptForm"
+).style.display="none";
+
+document.getElementById(
+"userBtn"
+).classList.add("active");
+
+document.getElementById(
+"deptBtn"
+).classList.remove("active");
+
+}
+
+function showDept(){
+
+document.getElementById(
+"userForm"
+).style.display="none";
+
+document.getElementById(
+"deptForm"
+).style.display="block";
+
+document.getElementById(
+"deptBtn"
+).classList.add("active");
+
+document.getElementById(
+"userBtn"
+).classList.remove("active");
+
+}
+
 function sendOTP(){
 
 const phone =
-document.getElementById("phone").value;
+document.getElementById(
+"phone"
+).value;
 
 const password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
-if(phone === "" || password === ""){
-alert("Please fill all fields");
+if(phone=="" || password==""){
+
+alert("Fill all fields");
+
 return;
+
 }
 
-alert("OTP Sent Successfully");
+window.location.href =
+"otp.html?phone="+phone;
 
-window.location.href = "otp.html";
+}
+
+function departmentLogin(){
+
+const department =
+document.getElementById(
+"department"
+).value;
+
+const id =
+document.getElementById(
+"deptId"
+).value;
+
+const phone =
+document.getElementById(
+"deptPhone"
+).value;
+
+const password =
+document.getElementById(
+"deptPassword"
+).value;
+
+// WATER
+
+if(
+department=="Water"
+&&
+id=="WATER123"
+&&
+phone=="9876543210"
+&&
+password=="water@123"
+){
+
+window.location.href =
+"admin.html";
+
+}
+
+// ELECTRICITY
+
+else if(
+department=="Electricity"
+&&
+id=="ELEC123"
+&&
+phone=="9876500000"
+&&
+password=="electric@123"
+){
+
+window.location.href =
+"admin.html";
+
+}
+
+// ROADS
+
+else if(
+department=="Roads"
+&&
+id=="ROAD123"
+&&
+phone=="9999999999"
+&&
+password=="road@123"
+){
+
+window.location.href =
+"admin.html";
+
+}
+
+// CLEANLINESS
+
+else if(
+department=="Cleanliness"
+&&
+id=="CLEAN123"
+&&
+phone=="8888888888"
+&&
+password=="clean@123"
+){
+
+window.location.href =
+"admin.html";
+
+}
+
+else{
+
+alert(
+"Wrong Department Credentials"
+);
+
+}
 
 }
 

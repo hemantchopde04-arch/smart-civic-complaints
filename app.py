@@ -112,8 +112,6 @@ def submit_complaint():
 
     filename = ""
 
-    # SAVE IMAGE
-
     if image:
 
         filename = image.filename
@@ -126,8 +124,6 @@ def submit_complaint():
             )
 
         )
-
-    # DATABASE SAVE
 
     conn = sqlite3.connect(
         "complaints.db"
@@ -292,13 +288,15 @@ def update_status(id):
 # =========================
 
 @app.route(
-    "/submit-feedback/<int:id>",
+    "/submit-feedback",
     methods=["POST"]
 )
 
-def submit_feedback(id):
+def submit_feedback():
 
     data = request.json
+
+    complaint_id = data.get("id")
 
     feedback = data.get("feedback")
 
@@ -320,7 +318,7 @@ def submit_feedback(id):
 
     (
         feedback,
-        id
+        complaint_id
     ))
 
     conn.commit()
@@ -332,7 +330,7 @@ def submit_feedback(id):
         "success": True,
 
         "message":
-        "Feedback Submitted"
+        "Feedback Submitted Successfully"
 
     })
 

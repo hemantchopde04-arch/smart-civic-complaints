@@ -74,6 +74,8 @@ textarea{
   color:white;
 
   outline:none;
+
+  font-size:16px;
 }
 
 button{
@@ -92,24 +94,18 @@ button{
 
   color:white;
 
+  font-size:18px;
+
   cursor:pointer;
-
-  font-size:16px;
-}
-
-button:hover{
-
-  opacity:0.9;
 }
 
 .back{
 
-  margin-top:15px;
+  display:block;
+
+  margin-top:18px;
 
   text-align:center;
-}
-
-.back a{
 
   color:#60a5fa;
 
@@ -125,8 +121,7 @@ button:hover{
 
 <h2>Give Feedback ⭐</h2>
 
-<textarea
-id="feedback"
+<textarea id="feedback"
 placeholder="Write your feedback...">
 </textarea>
 
@@ -136,15 +131,12 @@ Submit Feedback
 
 </button>
 
-<div class="back">
-
-<a href="dashboard.html">
+<a href="dashboard.html"
+class="back">
 
 ← Back to Dashboard
 
 </a>
-
-</div>
 
 </div>
 
@@ -155,63 +147,42 @@ new URLSearchParams(window.location.search);
 
 const id = params.get("id");
 
-async function submitFeedback(){
+function submitFeedback(){
 
   const feedback =
   document.getElementById("feedback")
   .value;
 
-  if(!feedback){
+  if(feedback === ""){
 
-    alert("Please write feedback");
+    alert("Please enter feedback");
 
     return;
-
   }
 
-  try{
+  let complaints = JSON.parse(
+    localStorage.getItem("complaints")
+  ) || [];
 
-    const res = await fetch(
+  complaints = complaints.map(item => {
 
-      `http://127.0.0.1:5000/submit-feedback/${id}`,
+    if(item.id == id){
 
-      {
+      item.feedback = feedback;
+    }
 
-        method:"POST",
+    return item;
+  });
 
-        headers:{
-          "Content-Type":"application/json"
-        },
+  localStorage.setItem(
+    "complaints",
+    JSON.stringify(complaints)
+  );
 
-        body:JSON.stringify({
+  alert("Feedback Submitted Successfully");
 
-          feedback:feedback
-
-        })
-
-      }
-
-    );
-
-    const data =
-    await res.json();
-
-    alert(data.message);
-
-    document.getElementById(
-      "feedback"
-    ).value="";
-
-  }
-
-  catch(error){
-
-    alert("Server Error");
-
-    console.log(error);
-
-  }
-
+  window.location.href =
+  "history.html";
 }
 
 </script>

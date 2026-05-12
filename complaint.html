@@ -241,18 +241,15 @@ Select Category
 type="file"
 id="image">
 
-<button onclick="detectAI()">
+<button onclick="detectCategory()">
 
 Detect AI Category
 
 </button>
 
-<!-- AI RESULT -->
-
 <div class="ai-box"
 id="aiBox">
 
-🤖 AI Detected Category:
 <span id="aiResult"></span>
 
 </div>
@@ -277,190 +274,129 @@ Submit Complaint
 
 <script>
 
-// AI DETECTION
+function detectCategory(){
 
-function detectAI(){
+const text =
+document.getElementById(
+"description"
+).value.toLowerCase();
 
-  const text =
-  document.getElementById(
-    "description"
-  ).value.toLowerCase();
+let category = "Other";
 
-  let result = "Other";
+if(
+text.includes("water") ||
+text.includes("pipe") ||
+text.includes("drain")
+){
+category = "Water";
+}
 
-  if(
-    text.includes("water")
-    ||
-    text.includes("pipe")
-    ||
-    text.includes("drain")
-  ){
+else if(
+text.includes("light") ||
+text.includes("electricity") ||
+text.includes("power")
+){
+category = "Electricity";
+}
 
-    result = "Water";
+else if(
+text.includes("road") ||
+text.includes("street") ||
+text.includes("pothole")
+){
+category = "Roads";
+}
 
-  }
+else if(
+text.includes("garbage") ||
+text.includes("dirty") ||
+text.includes("clean")
+){
+category = "Cleanliness";
+}
 
-  else if(
-    text.includes("light")
-    ||
-    text.includes("electricity")
-    ||
-    text.includes("power")
-  ){
+document.getElementById(
+"category"
+).value = category;
 
-    result = "Electricity";
+document.getElementById(
+"aiBox"
+).style.display = "block";
 
-  }
-
-  else if(
-    text.includes("road")
-    ||
-    text.includes("street")
-    ||
-    text.includes("pothole")
-  ){
-
-    result = "Roads";
-
-  }
-
-  else if(
-    text.includes("garbage")
-    ||
-    text.includes("dirty")
-    ||
-    text.includes("clean")
-  ){
-
-    result = "Cleanliness";
-
-  }
-
-  document.getElementById(
-    "aiBox"
-  ).style.display="block";
-
-  document.getElementById(
-    "aiResult"
-  ).innerHTML=result;
+document.getElementById(
+"aiResult"
+).innerHTML =
+"🤖 AI Detected Category: " + category;
 
 }
 
-// SUBMIT COMPLAINT
+function submitComplaint(){
 
-async function submitComplaint(){
+const name =
+document.getElementById("name").value;
 
-  const name =
-  document.getElementById("name")
-  .value;
+const title =
+document.getElementById("title").value;
 
-  const title =
-  document.getElementById("title")
-  .value;
+const description =
+document.getElementById("description").value;
 
-  const description =
-  document.getElementById(
-    "description"
-  ).value;
+const area =
+document.getElementById("area").value;
 
-  const area =
-  document.getElementById("area")
-  .value;
+const category =
+document.getElementById("category").value;
 
-  const category =
-  document.getElementById("category")
-  .value;
+if(
+name === "" ||
+title === "" ||
+description === "" ||
+area === "" ||
+category === ""
+){
 
-  const ai_category =
-  document.getElementById(
-    "aiResult"
-  ).innerHTML;
+alert("Please fill all fields");
 
-  const image =
-  document.getElementById("image")
-  .files[0];
+return;
 
-  // VALIDATION
+}
 
-  if(
-    !name
-    ||
-    !title
-    ||
-    !description
-    ||
-    !area
-    ||
-    !category
-  ){
+const complaints =
+JSON.parse(
+localStorage.getItem("complaints")
+) || [];
 
-    alert("Please fill all fields");
+const newComplaint = {
 
-    return;
-  }
+id: complaints.length + 1,
 
-  // FORMDATA
+name:name,
 
-  const formData =
-  new FormData();
+title:title,
 
-  formData.append("name",name);
+description:description,
 
-  formData.append("title",title);
+area:area,
 
-  formData.append(
-    "description",
-    description
-  );
+category:category,
 
-  formData.append("area",area);
+status:"Pending"
 
-  formData.append(
-    "category",
-    category
-  );
+};
 
-  formData.append(
-    "ai_category",
-    ai_category
-  );
+complaints.push(newComplaint);
 
-  formData.append(
-    "image",
-    image
-  );
+localStorage.setItem(
+"complaints",
+JSON.stringify(complaints)
+);
 
-  // API
+alert(
+"Complaint Submitted Successfully ✅"
+);
 
-  const res = await fetch(
-
-    "http://127.0.0.1:5000/submit-complaint",
-
-    {
-
-      method:"POST",
-
-      body:formData
-
-    }
-
-  );
-
-  const data =
-  await res.json();
-
-  // SUCCESS
-
-  alert(data.message);
-
-  // REDIRECT
-
-  setTimeout(()=>{
-
-    window.location.href =
-    "dashboard.html";
-
-  },500);
+window.location.href =
+"dashboard.html";
 
 }
 

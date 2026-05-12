@@ -73,19 +73,6 @@ body{
   backdrop-filter:blur(20px);
 }
 
-.card img{
-
-  width:100%;
-
-  height:220px;
-
-  object-fit:cover;
-
-  border-radius:15px;
-
-  margin-top:15px;
-}
-
 .status{
 
   display:inline-block;
@@ -153,89 +140,85 @@ Loading...
 
 <script>
 
-async function loadHistory(){
+function loadHistory(){
 
-  try{
+const complaints =
+JSON.parse(
+localStorage.getItem("complaints")
+) || [];
 
-    const res = await fetch(
-      "http://127.0.0.1:5000/get-complaints"
-    );
+let html = "";
 
-    const data = await res.json();
+if(complaints.length === 0){
 
-    let html = "";
+html = `
 
-    data.reverse().forEach(item => {
+<div class="card">
 
-      html += `
+<h2>No Complaints Found</h2>
 
-      <div class="card">
+<p>
+No complaints submitted yet.
+</p>
 
-        <h2>${item.title}</h2>
+</div>
 
-        <p><b>Name:</b> ${item.name}</p>
+`;
 
-        <p><b>Area:</b> ${item.area}</p>
+}
 
-        <p><b>Category:</b> ${item.category}</p>
+else{
 
-        <p><b>AI:</b> ${item.ai_category}</p>
+complaints.reverse().forEach(item => {
 
-        <p>${item.description}</p>
+html += `
 
-        <div class="status">
+<div class="card">
 
-          ${item.status}
+<h2>${item.title}</h2>
 
-        </div>
+<p><b>Name:</b> ${item.name}</p>
 
-        <img src="
-        http://127.0.0.1:5000/uploads/${item.image}
-        ">
+<p><b>Area:</b> ${item.area}</p>
 
-        <a href="
-        feedback.html?id=${item.id}
-        "
-        class="feedback-btn">
+<p><b>Category:</b> ${item.category}</p>
 
-        Give Feedback ⭐
+<p>${item.description}</p>
 
-        </a>
+<div class="status">
 
-        <div class="feedback-text">
+${item.status}
 
-        <b>Feedback:</b>
+</div>
 
-        ${
-          item.feedback
-          ? item.feedback
-          : "No Feedback Yet"
-        }
+<a href="
+feedback.html?id=${item.id}
+"
+class="feedback-btn">
 
-        </div>
+Give Feedback ⭐
 
-      </div>
+</a>
 
-      `;
+<div class="feedback-text">
 
-    });
+<b>Feedback:</b>
 
-    document.getElementById(
-      "historyBox"
-    ).innerHTML = html;
+No Feedback Yet
 
-  }
+</div>
 
-  catch(error){
+</div>
 
-    document.getElementById(
-      "historyBox"
-    ).innerHTML =
-    "Failed to load complaints";
+`;
 
-    console.log(error);
+});
 
-  }
+}
+
+document.getElementById(
+"historyBox"
+).innerHTML = html;
 
 }
 

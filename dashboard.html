@@ -357,6 +357,63 @@ window.location.href="index.html";
 
 }
 
+/* NOTIFICATION SYSTEM */
+
+function loadNotifications(){
+
+let complaints =
+JSON.parse(
+localStorage.getItem("complaints")
+) || [];
+
+const pending =
+complaints.filter(item =>
+item.status === "Pending"
+);
+
+document.getElementById(
+"badge"
+).innerText = pending.length;
+
+let html = "";
+
+if(pending.length === 0){
+
+html = "No Notifications";
+
+}else{
+
+pending.forEach(item => {
+
+html += `
+
+<div class="notification-item">
+
+<h4>${item.title}</h4>
+
+<p>
+
+Pending complaint from
+${item.name}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById(
+"notificationList"
+).innerHTML = html;
+
+}
+
+loadNotifications();
+
 </script>
 
 </body>

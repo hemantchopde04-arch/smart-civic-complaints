@@ -29,6 +29,7 @@ background:#2563eb;
 display:inline-block;
 border-radius:10px;
 margin-top:10px;
+font-weight:bold;
 }
 
 img{
@@ -77,4 +78,60 @@ html += `
 
 <h2>${item.title}</h2>
 
-<p><
+<p><b>Name:</b> ${item.name}</p>
+
+<p><b>Area:</b> ${item.area}</p>
+
+<p><b>Category:</b> ${item.category}</p>
+
+<p><b>Description:</b> ${item.description}</p>
+
+<div class="status">
+
+Status : ${item.status}
+
+</div>
+
+<br><br>
+
+${
+item.image
+?
+`<img src="${API}/uploads/${item.image}">`
+:
+""
+}
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"historyBox"
+).innerHTML = html;
+
+}
+
+catch(error){
+
+console.log(error);
+
+document.getElementById(
+"historyBox"
+).innerHTML =
+"Server Error";
+
+}
+
+}
+
+loadComplaints();
+
+setInterval(loadComplaints,3000);
+
+</script>
+
+</body>
+</html>

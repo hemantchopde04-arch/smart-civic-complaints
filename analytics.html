@@ -213,10 +213,19 @@ Cleanliness : 0
 
 <script>
 
+const API =
+"https://smart-civic-backend-dplj.onrender.com";
+
+async function loadAnalytics(){
+
+try{
+
+const res = await fetch(
+`${API}/get-complaints`
+);
+
 const complaints =
-JSON.parse(
-localStorage.getItem("complaints")
-) || [];
+await res.json();
 
 document.getElementById(
 "total"
@@ -294,6 +303,20 @@ document.getElementById(
 "cleanBar"
 ).innerHTML =
 "Cleanliness : " + clean;
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Failed to load analytics");
+
+}
+
+}
+
+loadAnalytics();
 
 </script>
 

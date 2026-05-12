@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,8 +99,6 @@ body{
   background:#3b82f6;
 }
 
-/* FEEDBACK BUTTON */
-
 .feedback-btn{
 
   display:block;
@@ -158,76 +155,87 @@ Loading...
 
 async function loadHistory(){
 
-  const res = await fetch(
-    "http://127.0.0.1:5000/get-complaints"
-  );
+  try{
 
-  const data = await res.json();
+    const res = await fetch(
+      "http://127.0.0.1:5000/get-complaints"
+    );
 
-  let html = "";
+    const data = await res.json();
 
-  data.reverse().forEach(item => {
+    let html = "";
 
-    html += `
+    data.reverse().forEach(item => {
 
-    <div class="card">
+      html += `
 
-      <h2>${item.title}</h2>
+      <div class="card">
 
-      <p><b>Name:</b> ${item.name}</p>
+        <h2>${item.title}</h2>
 
-      <p><b>Area:</b> ${item.area}</p>
+        <p><b>Name:</b> ${item.name}</p>
 
-      <p><b>Category:</b> ${item.category}</p>
+        <p><b>Area:</b> ${item.area}</p>
 
-      <p><b>AI:</b> ${item.ai_category}</p>
+        <p><b>Category:</b> ${item.category}</p>
 
-      <p>${item.description}</p>
+        <p><b>AI:</b> ${item.ai_category}</p>
 
-      <div class="status">
+        <p>${item.description}</p>
 
-        ${item.status}
+        <div class="status">
+
+          ${item.status}
+
+        </div>
+
+        <img src="
+        http://127.0.0.1:5000/uploads/${item.image}
+        ">
+
+        <a href="
+        feedback.html?id=${item.id}
+        "
+        class="feedback-btn">
+
+        Give Feedback ⭐
+
+        </a>
+
+        <div class="feedback-text">
+
+        <b>Feedback:</b>
+
+        ${
+          item.feedback
+          ? item.feedback
+          : "No Feedback Yet"
+        }
+
+        </div>
 
       </div>
 
-      <img src="
-      http://127.0.0.1:5000/uploads/${item.image}
-      ">
+      `;
 
-      <!-- FEEDBACK -->
+    });
 
-      <a href="
-      feedback.html?id=${item.id}
-      "
-      class="feedback-btn">
+    document.getElementById(
+      "historyBox"
+    ).innerHTML = html;
 
-      Give Feedback ⭐
+  }
 
-      </a>
+  catch(error){
 
-      <!-- SHOW FEEDBACK -->
+    document.getElementById(
+      "historyBox"
+    ).innerHTML =
+    "Failed to load complaints";
 
-      <div class="feedback-text">
+    console.log(error);
 
-      <b>Feedback:</b>
-
-      ${
-        item.feedback
-        ? item.feedback
-        : "No Feedback Yet"
-      }
-
-      </div>
-
-    </div>
-
-    `;
-
-  });
-
-  document.getElementById(
-    "historyBox"
-  ).innerHTML = html;
+  }
 
 }
 
@@ -236,243 +244,4 @@ loadHistory();
 </script>
 
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Complaint History</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-
-  min-height:100vh;
-
-  padding:30px;
-
-  background:
-  radial-gradient(circle at top left,#2563eb,#020617 40%),
-  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
-
-  color:white;
-}
-
-.top{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:30px;
-}
-
-.top a{
-
-  color:#60a5fa;
-
-  text-decoration:none;
-}
-
-.grid{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(320px,1fr));
-
-  gap:20px;
-}
-
-.card{
-
-  background:rgba(255,255,255,0.06);
-
-  border-radius:20px;
-
-  padding:20px;
-
-  border:1px solid rgba(255,255,255,0.1);
-
-  backdrop-filter:blur(20px);
-}
-
-.card img{
-
-  width:100%;
-
-  height:220px;
-
-  object-fit:cover;
-
-  border-radius:15px;
-
-  margin-top:15px;
-}
-
-.status{
-
-  display:inline-block;
-
-  margin-top:15px;
-
-  padding:8px 14px;
-
-  border-radius:10px;
-
-  background:#3b82f6;
-}
-
-/* FEEDBACK BUTTON */
-
-.feedback-btn{
-
-  display:block;
-
-  margin-top:15px;
-
-  text-align:center;
-
-  padding:12px;
-
-  border-radius:12px;
-
-  background:linear-gradient(90deg,#3b82f6,#9333ea);
-
-  color:white;
-
-  text-decoration:none;
-}
-
-.feedback-text{
-
-  margin-top:15px;
-
-  color:#cbd5e1;
-
-  font-size:14px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="top">
-
-<h1>Complaint History 📂</h1>
-
-<a href="dashboard.html">
-
-← Back
-
-</a>
-
-</div>
-
-<div class="grid"
-id="historyBox">
-
-Loading...
-
-</div>
-
-<script>
-
-async function loadHistory(){
-
-  const res = await fetch(
-    "http://127.0.0.1:5000/get-complaints"
-  );
-
-  const data = await res.json();
-
-  let html = "";
-
-  data.reverse().forEach(item => {
-
-    html += `
-
-    <div class="card">
-
-      <h2>${item.title}</h2>
-
-      <p><b>Name:</b> ${item.name}</p>
-
-      <p><b>Area:</b> ${item.area}</p>
-
-      <p><b>Category:</b> ${item.category}</p>
-
-      <p><b>AI:</b> ${item.ai_category}</p>
-
-      <p>${item.description}</p>
-
-      <div class="status">
-
-        ${item.status}
-
-      </div>
-
-      <img src="
-      http://127.0.0.1:5000/uploads/${item.image}
-      ">
-
-      <!-- FEEDBACK -->
-
-      <a href="
-      feedback.html?id=${item.id}
-      "
-      class="feedback-btn">
-
-      Give Feedback ⭐
-
-      </a>
-
-      <!-- SHOW FEEDBACK -->
-
-      <div class="feedback-text">
-
-      <b>Feedback:</b>
-
-      ${
-        item.feedback
-        ? item.feedback
-        : "No Feedback Yet"
-      }
-
-      </div>
-
-    </div>
-
-    `;
-
-  });
-
-  document.getElementById(
-    "historyBox"
-  ).innerHTML = html;
-
-}
-
-loadHistory();
-
-</script>
-
-</body>
->>>>>>> 97579c426bafa0db651d944dd151f21feb31ca43
 </html>

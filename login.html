@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Smart Civic Complaints</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+
+  height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  background:
+  radial-gradient(circle at top left,#2563eb,#020617 40%),
+  radial-gradient(circle at bottom right,#9333ea,#020617 40%);
+
+  overflow:hidden;
+
+  color:white;
+}
+
+/* CARD */
+
+.card{
+
+  width:390px;
+
+  padding:30px;
+
+  border-radius:25px;
+
+  background:rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.1);
+
+  box-shadow:0 0 40px rgba(0,0,0,0.4);
+}
+
+/* LOGO */
+
+.logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:20px;
+}
+
+.logo-box{
+
+  width:45px;
+
+  height:45px;
+
+  border-radius:12px;
+
+  background:linear-gradient(135deg,#3b82f6,#9333ea);
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  font-weight:bold;
+
+  font-size:20px;
+}
+
+/* HEAD */
+
+h3{
+
+  font-size:28px;
+
+  margin-bottom:5px;
+}
+
+.sub{
+
+  color:#cbd5e1;
+
+  font-size:13px;
+
+  margin-bottom:20px;
+}
+
+/* INPUT */
+
+input,
+select{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-top:12px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.07);
+
+  color:white;
+
+  outline:none;
+}
+
+select option{
+
+  background:#0f172a;
+}
+
+/* BUTTON */
+
+button{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-top:18px;
+
+  border:none;
+
+  border-radius:14px;
+
+  color:white;
+
+  cursor:pointer;
+
+  font-size:15px;
+}
+
+.main-btn{
+
+  background:linear-gradient(90deg,#3b82f6,#9333ea);
+}
+
+/* TOGGLE */
+
+.toggle{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-bottom:15px;
+}
+
+.toggle button{
+
+  background:rgba(255,255,255,0.06);
+}
+
+.active{
+
+  background:linear-gradient(90deg,#3b82f6,#9333ea)
+  !important;
+}
+
+/* TEXT */
+
+.bottom{
+
+  margin-top:18px;
+
+  text-align:center;
+
+  font-size:13px;
+
+  color:#cbd5e1;
+}
+
+.link{
+
+  color:#60a5fa;
+
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">
+
+<div class="logo-box">S</div>
+
+<h2>Smart Civic</h2>
+
+</div>
+
+<h3>Welcome 👋</h3>
+
+<p class="sub">
+
+AI Based Civic Complaint System
+
+</p>
+
+<!-- TOGGLE -->
+
+<div class="toggle">
+
+<button id="userBtn"
+class="active"
+onclick="showUser()">
+
+User Login
+
+</button>
+
+<button id="deptBtn"
+onclick="showDept()">
+
+Department Login
+
+</button>
+
+</div>
+
+<!-- USER FORM -->
+
+<div id="userForm">
+
+<input
+id="phone"
+placeholder="Phone Number">
+
+<input
+type="password"
+id="userPassword"
+placeholder="Password">
+
+<button class="main-btn"
+onclick="sendOTP()">
+
+Send OTP
+
+</button>
+
+</div>
+
+<!-- DEPARTMENT FORM -->
+
+<div id="deptForm"
+style="display:none;">
+
+<select id="department">
+
+<option value="Water">
+
+Water Department
+
+</option>
+
+<option value="Electricity">
+
+Electricity Department
+
+</option>
+
+<option value="Roads">
+
+Roads Department
+
+</option>
+
+<option value="Cleanliness">
+
+Cleanliness Department
+
+</option>
+
+</select>
+
+<input
+id="deptId"
+placeholder="Department ID">
+
+<input
+id="deptPhone"
+placeholder="Department Phone">
+
+<input
+id="deptPassword"
+type="password"
+placeholder="Password">
+
+<button class="main-btn"
+onclick="departmentLogin()">
+
+Department Login
+
+</button>
+
+</div>
+
+<div class="bottom">
+
+Smart Civic Complaint System
+
+</div>
+
+</div>
+
+<script>
+
+// USER TAB
+
+function showUser(){
+
+  document.getElementById("userForm")
+  .style.display="block";
+
+  document.getElementById("deptForm")
+  .style.display="none";
+
+  document.getElementById("userBtn")
+  .classList.add("active");
+
+  document.getElementById("deptBtn")
+  .classList.remove("active");
+}
+
+// DEPARTMENT TAB
+
+function showDept(){
+
+  document.getElementById("userForm")
+  .style.display="none";
+
+  document.getElementById("deptForm")
+  .style.display="block";
+
+  document.getElementById("deptBtn")
+  .classList.add("active");
+
+  document.getElementById("userBtn")
+  .classList.remove("active");
+}
+
+// USER OTP
+
+async function sendOTP(){
+
+  const phone =
+  document.getElementById("phone")
+  .value;
+
+  if(!phone){
+
+    alert("Enter Phone Number");
+
+    return;
+  }
+
+  const res = await fetch(
+
+    "http://127.0.0.1:5000/send-otp",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        phone:phone
+
+      })
+
+    }
+
+  );
+
+  const data =
+  await res.json();
+
+  alert(data.message);
+
+  window.location.href =
+  "otp.html?phone="+phone;
+
+}
+
+// DEPARTMENT LOGIN
+
+function departmentLogin(){
+
+  const department =
+  document.getElementById("department")
+  .value;
+
+  const id =
+  document.getElementById("deptId")
+  .value;
+
+  const phone =
+  document.getElementById("deptPhone")
+  .value;
+
+  const password =
+  document.getElementById("deptPassword")
+  .value;
+
+  // WATER
+
+  if(
+    department=="Water"
+    &&
+    id=="WATER123"
+    &&
+    phone=="9876543210"
+    &&
+    password=="water@123"
+  ){
+
+    window.location.href =
+    "admin.html";
+
+  }
+
+  // ELECTRICITY
+
+  else if(
+    department=="Electricity"
+    &&
+    id=="ELEC123"
+    &&
+    phone=="9876500000"
+    &&
+    password=="electric@123"
+  ){
+
+    window.location.href =
+    "admin.html";
+
+  }
+
+  // ROADS
+
+  else if(
+    department=="Roads"
+    &&
+    id=="ROAD123"
+    &&
+    phone=="9999999999"
+    &&
+    password=="road@123"
+  ){
+
+    window.location.href =
+    "admin.html";
+
+  }
+
+  // CLEANLINESS
+
+  else if(
+    department=="Cleanliness"
+    &&
+    id=="CLEAN123"
+    &&
+    phone=="8888888888"
+    &&
+    password=="clean@123"
+  ){
+
+    window.location.href =
+    "admin.html";
+
+  }
+
+  else{
+
+    alert(
+      "Wrong Department Credentials"
+    );
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Profile</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+
+background:#0f172a;
+color:white;
+padding:30px;
+
+}
+
+.profileCard{
+
+max-width:420px;
+margin:auto;
+background:#1e293b;
+padding:30px;
+border-radius:25px;
+text-align:center;
+
+}
+
+.circle{
+
+width:120px;
+height:120px;
+border-radius:50%;
+background:linear-gradient(
+135deg,
+#ec4899,
+#9333ea
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:50px;
+font-weight:bold;
+margin:auto;
+margin-bottom:20px;
+
+}
+
+h1{
+
+margin-bottom:10px;
+
+}
+
+.info{
+
+background:#0f172a;
+padding:18px;
+border-radius:15px;
+margin-top:20px;
+text-align:left;
+
+}
+
+.info p{
+
+margin-top:10px;
+font-size:18px;
+
+}
+
+.logoutBtn{
+
+width:100%;
+padding:16px;
+margin-top:30px;
+border:none;
+border-radius:15px;
+background:linear-gradient(
+90deg,
+#ef4444,
+#dc2626
+);
+
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="profileCard">
+
+<div class="circle"
+id="initial">
+
+A
+
+</div>
+
+<h1>
+My Profile
+</h1>
+
+<div class="info">
+
+<p>
+<b>Name:</b>
+<span id="userName"></span>
+</p>
+
+<p>
+<b>Number:</b>
+<span id="userPhone"></span>
+</p>
+
+</div>
+
+<button
+class="logoutBtn"
+onclick="logout()">
+
+Logout
+
+</button>
+
+</div>
+
+<script>
+
+const name =
+localStorage.getItem(
+"userName"
+) || "User";
+
+const phone =
+localStorage.getItem(
+"userPhone"
+) || "No Number";
+
+document.getElementById(
+"userName"
+).innerText = name;
+
+document.getElementById(
+"userPhone"
+).innerText = phone;
+
+document.getElementById(
+"initial"
+).innerText =
+name.charAt(0).toUpperCase();
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
+}
+
+</script>
+
+</body>
+</html>

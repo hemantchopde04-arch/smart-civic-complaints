@@ -153,21 +153,6 @@ button:hover{
   opacity:0.9;
 }
 
-.ai-box{
-
-  margin-top:20px;
-
-  padding:15px;
-
-  border-radius:15px;
-
-  background:rgba(59,130,246,0.15);
-
-  border:1px solid rgba(59,130,246,0.3);
-
-  display:none;
-}
-
 .back{
 
   margin-top:15px;
@@ -233,26 +218,11 @@ Select Category
 
 <option>Cleanliness</option>
 
-<option>Other</option>
-
 </select>
 
 <input
 type="file"
 id="image">
-
-<button onclick="detectCategory()">
-
-Detect AI Category
-
-</button>
-
-<div class="ai-box"
-id="aiBox">
-
-<span id="aiResult"></span>
-
-</div>
 
 <button onclick="submitComplaint()">
 
@@ -276,62 +246,6 @@ Submit Complaint
 
 const API =
 "https://smart-civic-backend-2.onrender.com";
-
-function detectCategory(){
-
-const text =
-document.getElementById(
-"description"
-).value.toLowerCase();
-
-let category = "Other";
-
-if(
-text.includes("water") ||
-text.includes("pipe") ||
-text.includes("drain")
-){
-category = "Water";
-}
-
-else if(
-text.includes("light") ||
-text.includes("electricity") ||
-text.includes("power")
-){
-category = "Electricity";
-}
-
-else if(
-text.includes("road") ||
-text.includes("street") ||
-text.includes("pothole")
-){
-category = "Roads";
-}
-
-else if(
-text.includes("garbage") ||
-text.includes("dirty") ||
-text.includes("clean")
-){
-category = "Cleanliness";
-}
-
-document.getElementById(
-"category"
-).value = category;
-
-document.getElementById(
-"aiBox"
-).style.display = "block";
-
-document.getElementById(
-"aiResult"
-).innerHTML =
-"🤖 AI Detected Category: " + category;
-
-}
 
 async function submitComplaint(){
 
@@ -367,6 +281,16 @@ return;
 
 }
 
+/* IMAGE REQUIRED */
+
+if(!image){
+
+alert("Please Upload Image");
+
+return;
+
+}
+
 const formData = new FormData();
 
 formData.append("name", name);
@@ -375,11 +299,7 @@ formData.append("description", description);
 formData.append("area", area);
 formData.append("category", category);
 
-if(image){
-
 formData.append("image", image);
-
-}
 
 try{
 
@@ -393,18 +313,18 @@ body:formData
 
 const data = await res.json();
 
-if(data.success){
+if(res.ok){
 
-alert(
-"Complaint Submitted Successfully ✅"
-);
+alert(data.message);
 
 window.location.href =
 "dashboard.html";
 
 }else{
 
-alert("Failed to submit complaint");
+alert(data.message);
+
+return;
 
 }
 

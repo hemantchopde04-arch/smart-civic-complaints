@@ -153,6 +153,29 @@ button:hover{
   opacity:0.9;
 }
 
+/* AI RESULT */
+
+#aiResult{
+
+  margin-top:15px;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  background:rgba(59,130,246,0.15);
+
+  border:1px solid rgba(96,165,250,0.3);
+
+  color:white;
+
+  text-align:center;
+
+  font-weight:600;
+
+  display:none;
+}
+
 .back{
 
   margin-top:15px;
@@ -224,6 +247,24 @@ Select Category
 type="file"
 id="image">
 
+<!-- DETECT AI BUTTON -->
+
+<button
+type="button"
+onclick="detectAI()">
+
+Detect AI Category
+
+</button>
+
+<!-- AI RESULT -->
+
+<div id="aiResult">
+
+🤖 AI Detected Category: Water
+
+</div>
+
 <button onclick="submitComplaint()">
 
 Submit Complaint
@@ -246,6 +287,74 @@ Submit Complaint
 
 const API =
 "https://smart-civic-backend-2.onrender.com";
+
+/* DETECT AI */
+
+async function detectAI(){
+
+const image =
+document.getElementById("image").files[0];
+
+if(!image){
+
+alert("Please Upload Image");
+
+return;
+
+}
+
+const formData = new FormData();
+
+formData.append("image", image);
+
+try{
+
+const res = await fetch(
+
+`${API}/detect-ai-category`,
+
+{
+method:"POST",
+body:formData
+}
+
+);
+
+const data = await res.json();
+
+document.getElementById(
+"aiResult"
+).style.display = "block";
+
+if(res.ok){
+
+document.getElementById(
+"aiResult"
+).innerHTML =
+
+"🤖 AI Detected Category: "
++ data.category;
+
+}else{
+
+document.getElementById(
+"aiResult"
+).innerHTML =
+data.message;
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert("Server Error");
+
+}
+
+}
+
+/* SUBMIT */
 
 async function submitComplaint(){
 
@@ -294,9 +403,13 @@ return;
 const formData = new FormData();
 
 formData.append("name", name);
+
 formData.append("title", title);
+
 formData.append("description", description);
+
 formData.append("area", area);
+
 formData.append("category", category);
 
 formData.append("image", image);
@@ -313,7 +426,18 @@ body:formData
 
 const data = await res.json();
 
+document.getElementById(
+"aiResult"
+).style.display = "block";
+
 if(res.ok){
+
+document.getElementById(
+"aiResult"
+).innerHTML =
+
+"🤖 AI Detected Category: "
++ data.ai_category;
 
 alert(data.message);
 
@@ -321,6 +445,11 @@ window.location.href =
 "dashboard.html";
 
 }else{
+
+document.getElementById(
+"aiResult"
+).innerHTML =
+data.message;
 
 alert(data.message);
 

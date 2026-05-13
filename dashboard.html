@@ -116,14 +116,44 @@ font-size:13px;
 color:#cbd5e1;
 }
 
-.logout{
-padding:12px 24px;
-border:none;
-border-radius:14px;
-background:#ef4444;
-color:white;
+/* PROFILE */
+
+.profileBox{
+
+display:flex;
+align-items:center;
+gap:12px;
 cursor:pointer;
-font-size:15px;
+background:rgba(255,255,255,0.08);
+padding:10px 15px;
+border-radius:16px;
+
+}
+
+.profileCircle{
+
+width:50px;
+height:50px;
+border-radius:50%;
+background:linear-gradient(
+135deg,
+#ec4899,
+#9333ea
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+font-weight:bold;
+
+}
+
+.profileName{
+
+font-size:17px;
+font-weight:600;
+
 }
 
 .hero{
@@ -221,12 +251,25 @@ No Notifications
 
 </div>
 
-<button class="logout"
-onclick="logout()">
+<!-- PROFILE -->
 
-Logout
+<div class="profileBox"
+onclick="openProfile()">
 
-</button>
+<div class="profileCircle"
+id="profileInitial">
+
+A
+
+</div>
+
+<div class="profileName">
+
+My Profile
+
+</div>
+
+</div>
 
 </div>
 
@@ -351,9 +394,22 @@ notificationBox.style.display
 
 });
 
-function logout(){
+/* PROFILE DATA */
 
-window.location.href="index.html";
+const userName =
+localStorage.getItem(
+"userName"
+) || "User";
+
+document.getElementById(
+"profileInitial"
+).innerText =
+userName.charAt(0).toUpperCase();
+
+function openProfile(){
+
+window.location.href =
+"profile.html";
 
 }
 

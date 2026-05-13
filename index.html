@@ -139,9 +139,19 @@ Department Login
 
 <div id="userForm">
 
+<!-- NAME INPUT -->
+
+<input type="text"
+id="name"
+placeholder="Enter Name">
+
+<!-- PHONE INPUT -->
+
 <input type="text"
 id="phone"
 placeholder="Phone Number">
+
+<!-- PASSWORD INPUT -->
 
 <input type="password"
 id="password"
@@ -248,6 +258,11 @@ document.getElementById(
 
 function sendOTP(){
 
+const name =
+document.getElementById(
+"name"
+).value;
+
 const phone =
 document.getElementById(
 "phone"
@@ -258,13 +273,27 @@ document.getElementById(
 "password"
 ).value;
 
-if(phone=="" || password==""){
+if(
+name=="" ||
+phone=="" ||
+password==""
+){
 
 alert("Fill all fields");
 
 return;
 
 }
+
+localStorage.setItem(
+"userName",
+name
+);
+
+localStorage.setItem(
+"userPhone",
+phone
+);
 
 window.location.href =
 "otp.html?phone="+phone;
